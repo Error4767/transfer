@@ -13,7 +13,6 @@ function createMessageCreator(messageType) {
     message,
     showClose: closable,
     type: messageType,
-    duration: 0,
   });
 };
 

@@ -6,7 +6,8 @@ export default function uploadFile({ filename, file, onUploadProgress, cancel}) 
     method: "post",
     url: serverPath.upload,
     headers: {
-      filename
+      // 编码为url格式，使其符合iso-8859-1
+      filename: encodeURI(filename)
     },
     cancelToken: cancel ? new request.CancelToken(cancel) : null,
     onUploadProgress,

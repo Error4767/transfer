@@ -85,7 +85,6 @@ export default {
       status.value = "";
       totalSize.value = 0;
       loadedSize.value = 0;
-      filename.value = "";
 
       cancel.value && cancel.value();
       cancel.value = () => {};
@@ -96,6 +95,7 @@ export default {
     // 重置所有信息(包含显示状态)
     function resetAll() {
       resetStates();
+      filename.value = "";
       currentUploadFn.value = () => {};
       progressVisible.value = false;
       dialogVisible.value = false;
@@ -129,6 +129,8 @@ export default {
           $fileInput = null;
           e.value = null;
 
+          // 设置文件名
+          filename.value = file.name;
           // 显示进度信息组件
           progressVisible.value = true;
           // 上传

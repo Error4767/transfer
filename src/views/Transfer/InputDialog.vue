@@ -25,6 +25,7 @@ export default {
     const inputValue = ref("");
     return {
       dialogVisible,
+      inputValue,
       download() {
         const extractCode = +inputValue.value.trim();
         // 验证提取码为数字且长度为6

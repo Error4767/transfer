@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>{{ filename }}</div>
+    <div class="filename">{{ filename }}</div>
     <div class="container">
       <ElProgress
         class="percent"
@@ -77,5 +77,8 @@ export default {
 }
 .uploaded-size-info {
   margin-left: var(--element-interval);
+}
+.filename {
+  margin: 1rem 0 1rem 0;
 }
 </style>
