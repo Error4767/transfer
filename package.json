@@ -1,0 +1,22 @@
+{
+  "name": "transfer-files",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "element-plus": "^1.0.2-beta.40",
+    "unstable": "^0.3.19",
+    "vue": "^3.0.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.1",
+    "@vue/compiler-sfc": "^3.0.5",
+    "sass-loader": "^11.0.1",
+    "vite": "^2.1.5",
+    "vite-plugin-style-import": "^0.9.2"
+  }
+}

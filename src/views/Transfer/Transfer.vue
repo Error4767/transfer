@@ -1,0 +1,177 @@
+<template>
+  <div>
+    <!-- 不在上传状态的时候显示发送文件按钮 -->
+    <ElButton v-if="!progressVisible" @click="upload" icon="el-icon-upload2">
+      发送文件
+    </ElButton>
+    <!-- 上传状态时显示进度信息 -->
+    <ElSpace v-if="progressVisible" :size="10" direction="vertical">
+      <UploadProgress
+        :total="totalSize"
+        :loaded="loadedSize"
+        :filename="filename"
+        :status="status"
+      ></UploadProgress>
+
+      <!-- 点击完成关闭进度显示 -->
+      <div v-if="status === 'success'">
+        <div class="extract-code">提取码: {{ extractCode }}</div>
+        <ElButton @click="resetAll" icon="el-icon-success">完成</ElButton>
+      </div>
+
+      <div>
+        <!-- status强制类型转换为false时则不显示取消上传按钮 -->
+        <ElButton v-if="!status || status === 'exception'" @click="resetAll"
+          >取消上传</ElButton
+        >
+        <ElButton
+          v-if="status === 'exception'"
+          @click="currentUploadFn"
+          icon="el-icon-refresh-right"
+          >重试</ElButton
+        >
+      </div>
+    </ElSpace>
+
+    <ElDivider></ElDivider>
+
+    <ElButton icon="el-icon-download" @click="showDialog"> 接收文件 </ElButton>
+    <InputDialog></InputDialog>
+  </div>
+</template>
+
+<script>
+import { ref } from "vue";
+
+import { ElButton, ElSpace, ElDivider } from "element-plus";
+import InputDialog from "./InputDialog.vue";
+import UploadProgress from "./UploadProgress.vue";
+
+import { typeOf } from "unstable";
+import uploadFile from "./uploadFile.js";
+import message from "@/common/message.js";
+
+// 共享对话框状态
+import { dialogVisible } from "./shareState.js";
+
+export default {
+  components: {
+    ElButton,
+    InputDialog,
+    UploadProgress,
+    ElSpace,
+    ElDivider,
+  },
+  setup() {
+    // 文件名
+    const filename = ref("");
+    // 是否显示上传信息
+    const progressVisible = ref(false);
+    // 总尺寸
+    const totalSize = ref(0);
+    // 已经上传的尺寸
+    const loadedSize = ref(0);
+    // 进度条状态
+    const status = ref("");
+    // 取消上传
+    const cancel = ref(() => {});
+    // 当前的上传函数，用于重试请求
+    const currentUploadFn = ref(() => {});
+    // 提取码
+    const extractCode = ref("");
+
+    // 重置当前上传所有信息
+    function resetStates() {
+      status.value = "";
+      totalSize.value = 0;
+      loadedSize.value = 0;
+      filename.value = "";
+
+      cancel.value && cancel.value();
+      cancel.value = () => {};
+
+      extractCode.value = "";
+    }
+
+    // 重置所有信息(包含显示状态)
+    function resetAll() {
+      resetStates();
+      currentUploadFn.value = () => {};
+      progressVisible.value = false;
+      dialogVisible.value = false;
+    }
+
+    return {
+      filename,
+      progressVisible,
+      totalSize,
+      loadedSize,
+      status,
+      cancel,
+      resetStates,
+      resetAll,
+      currentUploadFn,
+      extractCode,
+      // 显示填写提取码对话框
+      showDialog() {
+        dialogVisible.value = true;
+      },
+      upload() {
+        let $fileInput = document.createElement("input");
+        $fileInput.type = "file";
+        $fileInput.addEventListener("change", (e) => {
+          // 获得文件
+          let file = $fileInput.files[0];
+          // 检测有效性
+          if (typeOf(file) !== "File") {
+            return false;
+          }
+          $fileInput = null;
+          e.value = null;
+
+          // 显示进度信息组件
+          progressVisible.value = true;
+          // 上传
+          const uploadFn = () => {
+            resetStates();
+            uploadFile({
+              filename: file.name,
+              file,
+              onUploadProgress(e) {
+                const { total, loaded } = e;
+                totalSize.value = total;
+                loadedSize.value = loaded;
+              },
+              cancel(cancelFn) {
+                cancel.value = cancelFn;
+              },
+            })
+              .then((res) => {
+                status.value = "success";
+                extractCode.value = res.data;
+                message.success("上传文件完成: " + file.name);
+              })
+              .catch((err) => {
+                status.value = "exception";
+                message.error(
+                  `上传文件失败: ${file.name}\r\n错误信息: ${err}`
+                );
+              });
+          };
+          currentUploadFn.value = uploadFn;
+          uploadFn();
+        });
+        // 弹出文件选择框
+        $fileInput.click();
+      },
+    };
+  },
+};
+</script>
+
+<style scoped>
+.extract-code {
+  margin: 0.5rem;
+  font-size: 1.25rem;
+}
+</style>
