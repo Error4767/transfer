@@ -65,7 +65,7 @@ export default {
 
 <style scoped>
 .container {
-  display: flex;
+  display: column;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -73,10 +73,10 @@ export default {
 }
 .percent {
   width: 15rem;
-  margin-left: var(--element-interval);
+  margin-top: var(--element-interval);
 }
 .uploaded-size-info {
-  margin-left: var(--element-interval);
+  margin-top: var(--element-interval);
 }
 .filename {
   margin: 1rem 0 1rem 0;
