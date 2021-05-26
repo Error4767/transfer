@@ -148,9 +148,9 @@ export default {
                 cancel.value = cancelFn;
               },
             })
-              .then((res) => {
+              .then((resultExtractCode) => {
                 status.value = "success";
-                extractCode.value = res.data;
+                extractCode.value = resultExtractCode;
                 message.success("上传文件完成: " + file.name);
               })
               .catch((err) => {
