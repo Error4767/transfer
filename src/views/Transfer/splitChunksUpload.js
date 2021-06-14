@@ -4,6 +4,17 @@ import { throttle } from "unstable";
 
 const CancelToken = axios.CancelToken;
 
+// 获取已经上传的分片的hash
+function fetchUploadedChunksHashes(fetchChunksUri, identify) {
+  return axios({
+    method: "post",
+    url: fetchChunksUri,
+    headers: {
+      identify,
+    }
+  });
+}
+
 // 运行生成器并异步在每次计算完成一个chunk后运行回调
 function runAndTrackInfo(gen, onSingleChunkComputedCallback) {
   let iter = gen();
@@ -38,13 +49,14 @@ function splitChunksUpload({
   directory = "./",
   mergeChunksUri,
   uploadChunkUri,
-  splitChunkOptions = {},
-  onUploadProgress = () => {},
+  fetchUploadedChunksHashesUri,
+  splitChunkOptions = { chunkSize: 2097152 },
+  onUploadProgress = () => { },
   cancel: cancelToken = null,
 }) {
   const fileSize = file.size;
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     // 等待中的异步操作
     const waitActions = [];
     // 正在运行的异步上传操作： Array<promise>
@@ -52,16 +64,16 @@ function splitChunksUpload({
     // 各个chunk已上传的尺寸
     const uploadedChunksSizes = [];
     // 文件标识符
-    const identify = encodeURI(file.name) + Date.now();
+    const identify = encodeURI(file.name);
 
     // 请求取消函数
     const cancelFunctions = [];
     // 是否已经取消请求
     let isCancel = false;
     // 取消所有
-    const cancelAll = ()=> {
+    const cancelAll = () => {
       isCancel = true;
-      cancelFunctions.forEach(fn=> fn());
+      cancelFunctions.forEach(fn => fn());
     };
 
     // 用cancel函数调用cancelToken
@@ -93,7 +105,7 @@ function splitChunksUpload({
     // 重试两次都上传失败的chunk, 如果都重试成功就发送合并chunks请求
     const resetAndMergeChunks = () => {
       // 如果请求已被取消，直接结束函数
-      if(isCancel) {
+      if (isCancel) {
         return;
       }
       return Promise.all(doubleUploadFailedActions.map(action => action()))
@@ -124,7 +136,7 @@ function splitChunksUpload({
     // 运行单个动作
     const runSingleAction = (action) => {
       // 如果请求取消直接结束函数, 如果请求已经被取消，就没有必要重试请求
-      if(isCancel) {
+      if (isCancel) {
         return;
       }
       // 检测并发数，决定执行动作或者添加到等待队列
@@ -146,7 +158,7 @@ function splitChunksUpload({
             runSingleAction(waitActions.pop());
           }
         }).catch(() => {
-          if(isCancel) {
+          if (isCancel) {
             return;
           }
           // 首次立即重试
@@ -166,7 +178,7 @@ function splitChunksUpload({
               runSingleAction(waitActions.pop());
             }
           }).catch(() => {
-            if(isCancel) {
+            if (isCancel) {
               return;
             }
             // 重试错误添加数组中
@@ -186,10 +198,23 @@ function splitChunksUpload({
       }
     };
 
+    // 取得已经上传的所有chuunk的hash
+    const uploadedChunksHashes = await fetchUploadedChunksHashes(fetchUploadedChunksHashesUri, identify)
+      .then(r => r.data)
+      .catch(() => []);
+
     // 异步计算chunks数据，计算好之后回调，并且开始上传分片，并限制一定的并发数
     runAndTrackInfo(() => computeFileChunksInfoGenerator(file, splitChunkOptions), (chunkInfo) => {
       // 取出该chunk数据
       const { chunkHash, chunkIndex, chunksNumber, chunkRange: [start, end] } = chunkInfo;
+
+      // 如果后端已经有该分片，不再上传
+      if (uploadedChunksHashes.includes(chunkHash)) {
+        // 设置已上传大小为chunk尺寸
+        uploadedChunksSizes[chunkIndex] = splitChunkOptions.chunkSize;
+        return;
+      }
+
       const action = () => axios({
         method: "post",
         url: uploadChunkUri,
@@ -205,7 +230,7 @@ function splitChunksUpload({
           // 调用进度函数，该函数在上面已经设置节流
           onUploadProgressHandler();
         },
-        cancelToken: cancelToken ? new CancelToken((cancel)=> {
+        cancelToken: cancelToken ? new CancelToken((cancel) => {
           cancelFunctions[chunkIndex] = cancel;
         }) : null
       });

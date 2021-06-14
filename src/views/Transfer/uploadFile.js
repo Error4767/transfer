@@ -24,7 +24,8 @@ export default function uploadFile({ filename, file, onUploadProgress, cancel })
       onUploadProgress,
       cancel,
       uploadChunkUri: serverPath.uploadChunk,
-      mergeChunksUri: serverPath.mergeChunks
+      mergeChunksUri: serverPath.mergeChunks,
+      fetchUploadedChunksHashesUri: serverPath.fetchUploadedChunksHashes
     });
   }
 }
