@@ -211,7 +211,7 @@ function splitChunksUpload({
       // 如果后端已经有该分片，不再上传
       if (uploadedChunksHashes.includes(chunkHash)) {
         // 设置已上传大小为chunk尺寸
-        uploadedChunksSizes[chunkIndex] = splitChunkOptions.chunkSize;
+        uploadedChunksSizes[chunkIndex] = end - start;
         return;
       }
 

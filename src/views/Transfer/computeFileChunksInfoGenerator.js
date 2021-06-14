@@ -1,7 +1,7 @@
 import SparkMD5 from "spark-md5";
 
 // 每次调用就计算一次hash
-export default function* computeFileChunksInfoGenerator(file, { chunkSize } /* options */) {
+export default function* computeFileChunksInfoGenerator(file, { chunkSize = 2097152 } /* options */) {
 
   let blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice,
     // chunk数量
