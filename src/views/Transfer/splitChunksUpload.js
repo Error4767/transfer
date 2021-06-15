@@ -120,7 +120,7 @@ function splitChunksUpload({
             url: mergeChunksUri,
             headers: {
               identify,
-              fullPath: directory + encodeURI(file.name)
+              fullPath: encodeURI(directory + file.name)
             }
           }).then(({ data }) => {
             // 检测是否成功
