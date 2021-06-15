@@ -207,13 +207,17 @@ function splitChunksUpload({
     runAndTrackInfo(() => computeFileChunksInfoGenerator(file, splitChunkOptions), (chunkInfo) => {
       // 取出该chunk数据
       const { chunkHash, chunkIndex, chunksNumber, chunkRange: [start, end] } = chunkInfo;
-
       // 如果后端已经有该分片，不再上传
       if (uploadedChunksHashes.includes(chunkHash)) {
         // 设置已上传大小为chunk尺寸
         uploadedChunksSizes[chunkIndex] = end - start;
         // 触发进度更新
         onUploadProgressHandler();
+        // 如果是最后一个分片(index是数量-1)，且都是0则是上传完成，发起合并请求
+        if (chunkIndex >= chunksNumber - 1 && runningActions.length === 0 && waitActions.length === 0) {
+          console.log("merge");
+          resetAndMergeChunks();
+        };
         return;
       }
 
