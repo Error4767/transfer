@@ -212,6 +212,8 @@ function splitChunksUpload({
       if (uploadedChunksHashes.includes(chunkHash)) {
         // 设置已上传大小为chunk尺寸
         uploadedChunksSizes[chunkIndex] = end - start;
+        // 触发进度更新
+        onUploadProgressHandler();
         return;
       }
 
