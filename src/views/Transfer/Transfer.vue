@@ -14,7 +14,13 @@
       ></UploadProgress>
 
       <!-- 总尺寸大于0代表开始上传，且以上传的尺寸等于总尺寸，且状态为未完成 -->
-      <div v-if="totalSize !== 0 && loadedSize === totalSize && status !== 'success'">合并文件分片中... 这可能需要一点时间</div>
+      <div
+        v-if="
+          totalSize !== 0 && loadedSize === totalSize && status !== 'success'
+        "
+      >
+        合并文件分片中... 这可能需要一点时间
+      </div>
 
       <!-- 点击完成关闭进度显示 -->
       <div v-if="status === 'success'">
@@ -40,7 +46,6 @@
     <ElDivider></ElDivider>
 
     <ElButton icon="el-icon-download" @click="showDialog"> 接收文件 </ElButton>
-    <InputDialog></InputDialog>
   </div>
 </template>
 
@@ -48,20 +53,19 @@
 import { ref } from "vue";
 
 import { ElButton, ElSpace, ElDivider } from "element-plus";
-import InputDialog from "./InputDialog.vue";
 import UploadProgress from "./UploadProgress.vue";
 
 import { typeOf } from "unstable";
 import uploadFile from "./uploadFile.js";
 import message from "@/common/message.js";
 
-// 共享对话框状态
-import { dialogVisible } from "./shareState.js";
+import serverPath from "./serverPath.js";
+
+import Swal from "@/common/sweetAlert.js";
 
 export default {
   components: {
     ElButton,
-    InputDialog,
     UploadProgress,
     ElSpace,
     ElDivider,
@@ -102,7 +106,6 @@ export default {
       filename.value = "";
       currentUploadFn.value = () => {};
       progressVisible.value = false;
-      dialogVisible.value = false;
     }
 
     return {
@@ -118,7 +121,31 @@ export default {
       extractCode,
       // 显示填写提取码对话框
       showDialog() {
-        dialogVisible.value = true;
+        // 接收文件对话框
+        Swal.fire({
+          title: "输入提取码",
+          allowOutsideClick: false,
+          input: "text",
+          showLoaderOnConfirm: true,
+          showCloseButton: true,
+          inputPlaceholder: "6位数提取码",
+          confirmButtonText: "接收",
+          preConfirm: (extractCode) => {
+            window.open(serverPath.fetchFile + extractCode);
+          },
+          inputValidator: (extractCode) => {
+            // 验证提取码为数字且长度为6
+            if (
+              typeof Number(extractCode) === "number" &&
+              !Number.isNaN(Number(extractCode)) &&
+              String(extractCode).length === 6
+            ) {
+              return Promise.resolve();
+            } else {
+              return "请输入正确格式的提取码";
+            }
+          },
+        });
       },
       upload() {
         let $fileInput = document.createElement("input");
