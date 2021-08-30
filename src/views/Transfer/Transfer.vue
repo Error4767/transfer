@@ -13,6 +13,9 @@
         :status="status"
       ></UploadProgress>
 
+      <!-- 总尺寸大于0代表开始上传，且以上传的尺寸等于总尺寸，且状态为未完成 -->
+      <div v-if="totalSize !== 0 && loadedSize === totalSize && status !== 'success'">合并文件分片中... 这可能需要一点时间</div>
+
       <!-- 点击完成关闭进度显示 -->
       <div v-if="status === 'success'">
         <div class="extract-code">提取码: {{ extractCode }}</div>
@@ -21,15 +24,16 @@
 
       <div>
         <!-- status强制类型转换为false时则不显示取消上传按钮 -->
-        <ElButton v-if="!status || status === 'exception'" @click="resetAll"
-          >取消上传</ElButton
-        >
+        <ElButton v-if="!status || status === 'exception'" @click="resetAll">
+          取消上传
+        </ElButton>
         <ElButton
           v-if="status === 'exception'"
           @click="currentUploadFn"
           icon="el-icon-refresh-right"
-          >重试</ElButton
         >
+          重试
+        </ElButton>
       </div>
     </ElSpace>
 
@@ -155,9 +159,7 @@ export default {
               })
               .catch((err) => {
                 status.value = "exception";
-                message.error(
-                  `上传文件失败: ${file.name}\r\n错误信息: ${err}`
-                );
+                message.error(`上传文件失败: ${file.name}\r\n错误信息: ${err}`);
               });
           };
           currentUploadFn.value = uploadFn;
