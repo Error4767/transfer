@@ -3,19 +3,19 @@
     <template #header>
       <div class="header">
         <div class="username">{{ username }}</div>
-        <ElButton @click="copyContent">复制</ElButton>
+        <ElButton @click="copyContent" size="medium">复制</ElButton>
         <!-- 查看视图 -->
         <div v-if="!isEditing" class="edit-operation" @click="enterEditing">
           <div class="edit-operation-text">编辑</div>
-          <ElIcon size="24">
+          <ElIcon size="16">
             <Edit></Edit>
           </ElIcon>
         </div>
         <!-- 编辑视图 -->
         <div v-else class="edit-operation" @click="endEdit">
-          <div class="edit-operation-text">结束编辑并保存</div>
-          <ElIcon size="24">
-            <CircleClose></CircleClose>
+          <div class="edit-operation-text">保存更改</div>
+          <ElIcon size="16">
+            <CircleCheck></CircleCheck>
           </ElIcon>
         </div>
       </div>
@@ -49,7 +49,7 @@ import setCloudClipboard from "./setCloudClipboard.js";
 
 import { ElCard, ElButton, ElIcon, ElInput } from "element-plus";
 
-import { Edit, CircleClose } from "@element-plus/icons";
+import { Edit, CircleCheck } from "@element-plus/icons";
 
 import message from "@/common/message.js";
 import { invalidFilename } from "@/common/regExp.js";
@@ -60,7 +60,7 @@ export default {
     ElButton,
     ElIcon,
     Edit,
-    CircleClose,
+    CircleCheck,
     ElInput,
   },
   setup() {
@@ -76,7 +76,7 @@ export default {
     // 用户名合法性检测
     if (invalidFilename.test(username)) {
       message.warning("用户名不合法, 3秒后自动返回");
-      setTimeout(()=> router.go(-1), 3000);
+      setTimeout(() => router.go(-1), 3000);
     } else {
       // 初始化请求一次尝试获取剪切板内容
       getCloudClipboard(username)
@@ -130,6 +130,7 @@ export default {
   text-align: left;
 }
 .edit-operation {
+  font-size: 0.8rem;
   display: flex;
   flex-direction: row;
   align-items: center;
