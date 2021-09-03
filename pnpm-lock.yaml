@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@element-plus/icons': ^0.0.11
   '@vitejs/plugin-vue': ^1.6.0
   '@vue/compiler-sfc': ^3.2.7
   axios: ^0.21.1
@@ -12,14 +13,17 @@ specifiers:
   vite: ^2.5.3
   vite-plugin-element-plus: ^0.0.12
   vue: ^3.2.7
+  vue-router: ^4.0.11
 
 dependencies:
+  '@element-plus/icons': registry.nlark.com/@element-plus/icons/0.0.11
   axios: 0.21.1
   element-plus: registry.nlark.com/element-plus/1.1.0-beta.8_vue@3.2.7
   spark-md5: registry.nlark.com/spark-md5/3.0.2
   sweetalert2: registry.nlark.com/sweetalert2/11.1.4
   unstable: registry.nlark.com/unstable/0.3.34
   vue: registry.nlark.com/vue/3.2.7
+  vue-router: registry.nlark.com/vue-router/4.0.11_vue@3.2.7
 
 devDependencies:
   '@vitejs/plugin-vue': registry.nlark.com/@vitejs/plugin-vue/1.6.0_@vue+compiler-sfc@3.2.7
@@ -257,6 +261,12 @@ packages:
       '@vue/compiler-dom': registry.nlark.com/@vue/compiler-dom/3.2.7
       '@vue/shared': registry.nlark.com/@vue/shared/3.2.7
     dev: true
+
+  registry.nlark.com/@vue/devtools-api/6.0.0-beta.15:
+    resolution: {integrity: sha1-rXyzhOBi8WW8+cg3MhJb/7wq2D0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@vue/devtools-api/download/@vue/devtools-api-6.0.0-beta.15.tgz}
+    name: '@vue/devtools-api'
+    version: 6.0.0-beta.15
+    dev: false
 
   registry.nlark.com/@vue/reactivity/3.2.7:
     resolution: {integrity: sha1-399Jo5hOO1A8jXUaOSuK+6sh/TI=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@vue/reactivity/download/@vue/reactivity-3.2.7.tgz}
@@ -662,6 +672,18 @@ packages:
     optionalDependencies:
       fsevents: registry.nlark.com/fsevents/2.3.2
     dev: true
+
+  registry.nlark.com/vue-router/4.0.11_vue@3.2.7:
+    resolution: {integrity: sha1-zWSaCUHGNSgXY6IJZbWZZD3caO0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/vue-router/download/vue-router-4.0.11.tgz}
+    id: registry.nlark.com/vue-router/4.0.11
+    name: vue-router
+    version: 4.0.11
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      '@vue/devtools-api': registry.nlark.com/@vue/devtools-api/6.0.0-beta.15
+      vue: registry.nlark.com/vue/3.2.7
+    dev: false
 
   registry.nlark.com/vue/3.2.7:
     resolution: {integrity: sha1-CFDydA8MtYdB8sU7y9nGxwXkzHQ=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/vue/download/vue-3.2.7.tgz}

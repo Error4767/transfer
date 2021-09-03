@@ -1,4 +1,5 @@
-const origin = "https://api.ecuder.cn:16384";
+import networkPath from "@/network/networkPath.js";
+const origin = networkPath.api;
 export default {
   origin,
   upload: origin + "/upload",
