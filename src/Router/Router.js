@@ -1,17 +1,26 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-const Transfer = ()=> import("@/views/Transfer/Transfer.vue");
+const TransferFiles = ()=> import("@/views/TransferFiles/TransferFiles.vue");
 const CloudClipboard = ()=> import("@/views/CloudClipboard/CloudClipboard.vue");
+const CloudClipboardEnter = ()=> import("@/views/CloudClipboardEnter/CloudClipboardEnter.vue");
 
 const routes = [
   {
     path: "/",
-    component: Transfer
+    component: TransferFiles
+  },
+  {
+    path: "/transferFiles",
+    component: TransferFiles
+  },
+  {
+    path: "/CloudClipboard",
+    component: CloudClipboardEnter,
   },
   {
     path: "/CloudClipboard/:username",
     component: CloudClipboard,
-  }
+  },
 ];
 
 export default createRouter({
