@@ -21,22 +21,20 @@
       </div>
     </template>
 
-    <div class="content">
-      <div v-if="!isEditing">
-        {{ cloudClipboardContent }}
-      </div>
-      <ElInput
-        v-else
-        class="input"
-        v-model="cloudClipboardContent"
-        type="textarea"
-        maxlength="8000"
-        show-word-limit
-        rows="15"
-        placeholder="该剪切板目前没有内容，点击右上角编辑内容"
-      >
-      </ElInput>
+    <div class="content" v-if="!isEditing">
+      {{ cloudClipboardContent }}
     </div>
+    <ElInput
+      v-else
+      class="input"
+      v-model="cloudClipboardContent"
+      type="textarea"
+      maxlength="8000"
+      show-word-limit
+      rows="15"
+      placeholder="该剪切板目前没有内容，点击右上角编辑内容"
+    >
+    </ElInput>
   </ElCard>
 </template>
 
@@ -126,8 +124,14 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+/* 这里的样式与 Element Plus input textarea 的样式大致相同，为了点击编辑之后没有内容偏移 */
 .content {
+  font-family: serif;
   text-align: left;
+  white-space: pre-wrap;
+  line-height: 1.5rem;
+  color: #555;
+  padding: 0.35rem 0 0 1rem;
 }
 .edit-operation {
   font-size: 0.8rem;
