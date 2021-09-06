@@ -21,9 +21,11 @@
       </div>
     </template>
 
-    <div class="content" v-if="!isEditing">
-      {{ cloudClipboardContent }}
-    </div>
+    <ElScrollbar class="scroll-container" v-if="!isEditing">
+      <div class="content">
+        {{ cloudClipboardContent }}
+      </div>
+    </ElScrollbar>
     <ElInput
       v-else
       class="input"
@@ -45,7 +47,7 @@ import { useRoute, useRouter } from "vue-router";
 import getCloudClipboard from "./getCloudClipboard.js";
 import setCloudClipboard from "./setCloudClipboard.js";
 
-import { ElCard, ElButton, ElIcon, ElInput } from "element-plus";
+import { ElCard, ElButton, ElIcon, ElInput, ElScrollbar} from "element-plus";
 
 import { Edit, CircleCheck } from "@element-plus/icons";
 
@@ -60,6 +62,7 @@ export default {
     Edit,
     CircleCheck,
     ElInput,
+    ElScrollbar
   },
   setup() {
     const route = useRoute();
@@ -118,6 +121,11 @@ export default {
   height: 500px;
   margin: 2rem;
 }
+
+.scroll-container {
+  height: 370px;
+}
+
 .header {
   display: flex;
   flex-direction: row;
@@ -148,7 +156,7 @@ export default {
 }
 .input {
   width: 100%;
-  height: 60vh;
+  height: 370px;
   font-size: 1rem;
   font-weight: bold;
 }
