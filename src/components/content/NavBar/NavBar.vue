@@ -24,4 +24,8 @@ export default {
 </script>
 
 <style scoped>
+/* 取消下划线，(有下划线目前可能是 element plus 的一个bug) */
+.menu a {
+  text-decoration: none;
+}
 </style>
