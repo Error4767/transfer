@@ -215,7 +215,6 @@ function splitChunksUpload({
         onUploadProgressHandler();
         // 如果是最后一个分片(index是数量-1)，且都是0则是上传完成，发起合并请求
         if (chunkIndex >= chunksNumber - 1 && runningActions.length === 0 && waitActions.length === 0) {
-          console.log("merge");
           resetAndMergeChunks();
         };
         return;
