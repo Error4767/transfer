@@ -47,7 +47,7 @@ import { useRoute, useRouter } from "vue-router";
 import getCloudClipboard from "./getCloudClipboard.js";
 import setCloudClipboard from "./setCloudClipboard.js";
 
-import { ElCard, ElButton, ElIcon, ElInput, ElScrollbar} from "element-plus";
+import { ElCard, ElButton, ElIcon, ElInput, ElScrollbar } from "element-plus";
 
 import { Edit, CircleCheck } from "@element-plus/icons";
 
@@ -62,7 +62,7 @@ export default {
     Edit,
     CircleCheck,
     ElInput,
-    ElScrollbar
+    ElScrollbar,
   },
   setup() {
     const route = useRoute();
@@ -120,44 +120,45 @@ export default {
 .clipboard {
   height: 500px;
   margin: 2rem;
-}
-
-.scroll-container {
-  height: 370px;
-}
-
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-/* 这里的样式与 Element Plus input textarea 的样式大致相同，为了点击编辑之后没有内容偏移 */
-.content {
-  font-family: serif;
-  text-align: left;
-  white-space: pre-wrap;
-  line-height: 1.5rem;
-  color: #555;
-  padding: 0.35rem 0 0 1rem;
-}
-.edit-operation {
-  font-size: 0.8rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  cursor: pointer;
-  padding: 0.6rem;
-  border: 1px solid #eee;
-  border-radius: 5%;
-}
-.edit-operation-text {
-  margin-right: 10px;
-}
-.input {
-  width: 100%;
-  height: 370px;
-  font-size: 1rem;
-  font-weight: bold;
+  & .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    & .scroll-container {
+      height: 370px;
+    }
+    & .edit-operation {
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      cursor: pointer;
+      padding: 0.6rem;
+      border: 1px solid #eee;
+      border-radius: 5%;
+      & .edit-operation-text {
+        margin-right: 10px;
+      }
+    }
+  }
+  /* 这里的样式与 Element Plus input textarea 的样式大致相同，为了点击编辑之后没有内容偏移 */
+  & .content {
+    text-align: left;
+    white-space: pre-wrap;
+    padding: 0.35rem 0 0 1rem;
+  }
+  & .input {
+    width: 100%;
+    height: 370px;
+    font-weight: bold;
+  }
+  & .content,
+  & .input {
+    font-family: monospace, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #555;
+  }
 }
 </style>
