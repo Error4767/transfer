@@ -21,11 +21,13 @@
       </div>
     </template>
 
-    <ElScrollbar class="scroll-container" v-if="!isEditing">
-      <div class="content">
-        {{ cloudClipboardContent }}
-      </div>
-    </ElScrollbar>
+    <div class="scroll-container" v-if="!isEditing">
+      <ElScrollbar>
+        <div class="content">
+          {{ cloudClipboardContent }}
+        </div>
+      </ElScrollbar>
+    </div>
     <ElInput
       v-else
       class="input"
@@ -116,7 +118,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
 .clipboard {
   height: 500px;
   margin: 2rem;
@@ -125,9 +127,6 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    & .scroll-container {
-      height: 370px;
-    }
     & .edit-operation {
       font-size: 0.8rem;
       display: flex;
@@ -141,6 +140,9 @@ export default {
         margin-right: 10px;
       }
     }
+  }
+  & .scroll-container {
+    height: 370px;
   }
   /* 这里的样式与 Element Plus input textarea 的样式大致相同，为了点击编辑之后没有内容偏移 */
   & .content {
