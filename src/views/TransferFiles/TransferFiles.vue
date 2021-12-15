@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 不在上传状态的时候显示发送文件按钮 -->
-    <ElButton v-if="!progressVisible" @click="upload" icon="el-icon-upload2">
+    <ElButton v-if="!progressVisible" @click="upload" :icon="Upload">
       发送文件
     </ElButton>
     <!-- 上传状态时显示进度信息 -->
@@ -25,7 +25,7 @@
       <!-- 点击完成关闭进度显示 -->
       <div v-if="status === 'success'">
         <div class="extract-code">提取码: {{ extractCode }}</div>
-        <ElButton @click="resetAll" icon="el-icon-success">完成</ElButton>
+        <ElButton @click="resetAll" :icon="SuccessFilled">完成</ElButton>
       </div>
 
       <div>
@@ -36,7 +36,7 @@
         <ElButton
           v-if="status === 'exception'"
           @click="currentUploadFn"
-          icon="el-icon-refresh-right"
+          :icon="RefreshRight"
         >
           重试
         </ElButton>
@@ -45,7 +45,7 @@
 
     <ElDivider></ElDivider>
 
-    <ElButton icon="el-icon-download" @click="showDialog"> 接收文件 </ElButton>
+    <ElButton :icon="Download" @click="showDialog"> 接收文件 </ElButton>
   </div>
 </template>
 
@@ -53,6 +53,7 @@
 import { ref } from "vue";
 
 import { ElButton, ElSpace, ElDivider } from "element-plus";
+import { Upload ,Download ,SuccessFilled, RefreshRight } from "@element-plus/icons-vue";
 import UploadProgress from "./UploadProgress.vue";
 
 import { typeOf } from "unstable";
@@ -109,6 +110,12 @@ export default {
     }
 
     return {
+      // 图标样式
+      Upload,
+      Download,
+      SuccessFilled,
+      RefreshRight,
+      // 脚本内容
       filename,
       progressVisible,
       totalSize,

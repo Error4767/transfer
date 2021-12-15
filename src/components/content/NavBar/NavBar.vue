@@ -1,25 +1,32 @@
 <template>
   <ElMenu class="menu" mode="horizontal">
-    <ElMenuItem>
-      <router-link to="/">主页</router-link>
+    <ElMenuItem :index="String(Math.random())" @click="router.push('/')">
+      主页
     </ElMenuItem>
-    <ElMenuItem>
-      <router-link to="/transferFiles">文件传输</router-link>
+    <ElMenuItem :index="String(Math.random())" @click="router.push('/transferFiles')">
+      文件传输
     </ElMenuItem>
-    <ElMenuItem>
-      <router-link to="/CloudClipboard">云剪切板</router-link>
+    <ElMenuItem :index="String(Math.random())" @click="router.push('/CloudClipboard')">
+      云剪切板
     </ElMenuItem>
   </ElMenu>
 </template>
 
 <script>
 import { ElMenu, ElMenuItem } from "element-plus";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
     ElMenu,
     ElMenuItem,
   },
+  setup() {
+    const router = useRouter();
+    return {
+      router,
+    }
+  }
 };
 </script>
 

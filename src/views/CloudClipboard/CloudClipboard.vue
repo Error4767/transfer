@@ -51,7 +51,7 @@ import setCloudClipboard from "./setCloudClipboard.js";
 
 import { ElCard, ElButton, ElIcon, ElInput, ElScrollbar } from "element-plus";
 
-import { Edit, CircleCheck } from "@element-plus/icons";
+import { Edit, CircleCheck } from "@element-plus/icons-vue";
 
 import message from "@/common/message.js";
 import { invalidFilename } from "@/common/regExp.js";
