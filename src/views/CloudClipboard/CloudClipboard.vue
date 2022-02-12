@@ -3,7 +3,7 @@
     <template #header>
       <div class="header">
         <div class="username">{{ username }}</div>
-        <ElButton @click="copyContent" size="medium">复制</ElButton>
+        <ElButton @click="copyContent">复制</ElButton>
         <!-- 查看视图 -->
         <div v-if="!isEditing" class="edit-operation" @click="enterEditing">
           <div class="edit-operation-text">编辑</div>

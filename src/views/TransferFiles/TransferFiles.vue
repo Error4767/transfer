@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 不在上传状态的时候显示发送文件按钮 -->
-    <ElButton v-if="!progressVisible" @click="upload" :icon="Upload">
+    <ElButton v-if="!progressVisible" size="large" @click="upload" :icon="Upload">
       发送文件
     </ElButton>
     <!-- 上传状态时显示进度信息 -->
@@ -25,15 +25,16 @@
       <!-- 点击完成关闭进度显示 -->
       <div v-if="status === 'success'">
         <div class="extract-code">提取码: {{ extractCode }}</div>
-        <ElButton @click="resetAll" :icon="SuccessFilled">完成</ElButton>
+        <ElButton size="large" @click="resetAll" :icon="SuccessFilled">完成</ElButton>
       </div>
 
       <div>
         <!-- status强制类型转换为false时则不显示取消上传按钮 -->
-        <ElButton v-if="!status || status === 'exception'" @click="resetAll">
+        <ElButton size="large" v-if="!status || status === 'exception'" @click="resetAll">
           取消上传
         </ElButton>
         <ElButton
+          size="large"
           v-if="status === 'exception'"
           @click="currentUploadFn"
           :icon="RefreshRight"
@@ -45,7 +46,7 @@
 
     <ElDivider></ElDivider>
 
-    <ElButton :icon="Download" @click="showDialog"> 接收文件 </ElButton>
+    <ElButton size="large" :icon="Download" @click="showDialog"> 接收文件 </ElButton>
   </div>
 </template>
 

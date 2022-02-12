@@ -1,5 +1,5 @@
 <template>
-  <ElButton @click="createDialog">进入云剪切板</ElButton>
+  <ElButton @click="createDialog" size="large">进入云剪切板</ElButton>
 </template>
 
 <script>

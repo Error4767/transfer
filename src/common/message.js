@@ -1,4 +1,6 @@
 import { ElMessage } from "element-plus";
+// 样式导入，可能是 ElMessage 样式没有成功被导入，后续版本可能会修复
+import "element-plus/theme-chalk/el-message.css";
 
 const messageTypes = {
   default: "default",
