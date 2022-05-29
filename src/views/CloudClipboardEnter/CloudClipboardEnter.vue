@@ -29,7 +29,6 @@ export default {
           router.push(`/CloudClipboard/${username}`);
         },
         inputValidator: (username) => {
-          // 验证提取码为数字且长度为6
           if (!invalidFilename.test(username)) {
             return Promise.resolve();
           } else {

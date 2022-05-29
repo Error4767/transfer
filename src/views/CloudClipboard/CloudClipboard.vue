@@ -104,14 +104,14 @@ export default {
         const value = cloudClipboardContent.value;
         setCloudClipboard(username, value)
           .then(() => message.success("保存成功"))
-          .catch(() => message.success("保存失败"));
+          .catch(() => message.error("保存失败"));
       },
       // 复制按钮
       copyContent() {
         navigator.clipboard
           .writeText(cloudClipboardContent.value)
           .then(() => message.success("复制成功"))
-          .catch(() => message.success("复制失败"));
+          .catch(() => message.error("复制失败"));
       },
     };
   },

@@ -139,7 +139,7 @@ export default {
       navigator.clipboard
         .writeText(serverPath.fetchFile + extractCode)
         .then(() => message.success("复制成功"))
-        .catch(() => message.success("复制失败"));
+        .catch(() => message.error("复制失败"));
     }
 
     return {
