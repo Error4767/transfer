@@ -1,7 +1,12 @@
 <template>
   <div>
     <!-- 不在上传状态的时候显示发送文件按钮 -->
-    <ElButton v-if="!progressVisible" size="large" @click="upload" :icon="Upload">
+    <ElButton
+      v-if="!progressVisible"
+      size="large"
+      @click="upload"
+      :icon="Upload"
+    >
       发送文件
     </ElButton>
     <!-- 上传状态时显示进度信息 -->
@@ -19,18 +24,30 @@
           totalSize !== 0 && loadedSize === totalSize && status !== 'success'
         "
       >
-        合并文件分片中... 这可能需要一点时间
+        <div v-if="totalSize > 10485760">
+          合并文件分片中... 这可能需要一点时间
+        </div>
+        <div v-else>完成中...</div>
       </div>
 
       <!-- 点击完成关闭进度显示 -->
       <div v-if="status === 'success'">
         <div class="extract-code">提取码: {{ extractCode }}</div>
-        <ElButton size="large" @click="resetAll" :icon="SuccessFilled">完成</ElButton>
+        <ElButton size="large" @click="copyLink(extractCode)">
+          复制直链
+        </ElButton>
+        <ElButton size="large" @click="resetAll" :icon="SuccessFilled">
+          完成
+        </ElButton>
       </div>
 
       <div>
         <!-- status强制类型转换为false时则不显示取消上传按钮 -->
-        <ElButton size="large" v-if="!status || status === 'exception'" @click="resetAll">
+        <ElButton
+          size="large"
+          v-if="!status || status === 'exception'"
+          @click="resetAll"
+        >
           取消上传
         </ElButton>
         <ElButton
@@ -46,7 +63,9 @@
 
     <ElDivider></ElDivider>
 
-    <ElButton size="large" :icon="Download" @click="showDialog"> 接收文件 </ElButton>
+    <ElButton size="large" :icon="Download" @click="showDialog">
+      接收文件
+    </ElButton>
   </div>
 </template>
 
@@ -54,7 +73,12 @@
 import { ref } from "vue";
 
 import { ElButton, ElSpace, ElDivider } from "element-plus";
-import { Upload ,Download ,SuccessFilled, RefreshRight } from "@element-plus/icons-vue";
+import {
+  Upload,
+  Download,
+  SuccessFilled,
+  RefreshRight,
+} from "@element-plus/icons-vue";
 import UploadProgress from "./UploadProgress.vue";
 
 import { typeOf } from "unstable";
@@ -110,6 +134,14 @@ export default {
       progressVisible.value = false;
     }
 
+    // 复制直链到剪切板
+    function copyLink(extractCode) {
+      navigator.clipboard
+        .writeText(serverPath.fetchFile + extractCode)
+        .then(() => message.success("复制成功"))
+        .catch(() => message.success("复制失败"));
+    }
+
     return {
       // 图标样式
       Upload,
@@ -125,6 +157,7 @@ export default {
       cancel,
       resetStates,
       resetAll,
+      copyLink,
       currentUploadFn,
       extractCode,
       // 显示填写提取码对话框
