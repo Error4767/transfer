@@ -2,9 +2,9 @@
   "name": "transfer",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.7",

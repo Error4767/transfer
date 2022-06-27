@@ -9,8 +9,6 @@ export default function* computeFileChunksInfoGenerator(file, { chunkSize = 2097
     // 当前chunk
     currentChunkIndex = 0,
 
-    spark = new SparkMD5.ArrayBuffer(),
-
     fileReader = new FileReader();
 
   // 存放resolve方法
@@ -41,7 +39,6 @@ export default function* computeFileChunksInfoGenerator(file, { chunkSize = 2097
 
   fileReader.onload = (e) => {
     let result = e.target.result;
-    spark.append(result);
 
     let chunkIndex = currentChunkIndex;
     currentChunkIndex++;
