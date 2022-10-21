@@ -175,9 +175,8 @@ export default {
             window.open(serverPath.fetchFile + extractCode);
           },
           inputValidator: (extractCode) => {
-            // 验证提取码为数字且长度为6
+            // 验证提取码为有效数字且长度为6
             if (
-              typeof Number(extractCode) === "number" &&
               !Number.isNaN(Number(extractCode)) &&
               String(extractCode).length === 6
             ) {

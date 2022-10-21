@@ -13,6 +13,7 @@ export default function* computeFileChunksInfoGenerator(file, { chunkSize = 2097
 
   // 存放resolve方法
   let PromiseResolve;
+  let PromiseReject;
 
   function* readNext() {
     let start = currentChunkIndex * chunkSize;
@@ -24,6 +25,7 @@ export default function* computeFileChunksInfoGenerator(file, { chunkSize = 2097
       fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
       // resolve传递，在下个onload事件时resolve
       PromiseResolve = resolve;
+      PromiseReject = reject;
     }).then(({ chunkHash, chunkIndex }) => ({// 转换生成的值
       chunkHash,
       chunkIndex,
@@ -53,7 +55,7 @@ export default function* computeFileChunksInfoGenerator(file, { chunkSize = 2097
   };
 
   fileReader.onerror = (e) => {
-    reject(e);
+    PromiseReject(e);
   };
   yield* readNext();
 }
