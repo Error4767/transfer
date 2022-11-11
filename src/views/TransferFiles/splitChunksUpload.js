@@ -41,6 +41,20 @@ function runAndTrackInfo(gen, onSingleChunkComputedCallback) {
   });
 }
 
+// 获取ID的方法，用于 chunks identify 的一部分
+function getID() {
+  // 如果有则直接使用
+  let id = localStorage.getItem("split_chunks_upload_random_id");
+  if(id) {
+    return id;
+  }else {
+    // 如果没有生成一个并存储
+    id = Math.random().toString(16).substring(2, 10).padEnd(length, '0');
+    localStorage.setItem("split_chunks_upload_random_id", id);
+    return id;
+  }
+}
+
 // chunk上传并发数
 const concurrentSize = 5;
 
@@ -64,8 +78,7 @@ function splitChunksUpload({
     // 各个chunk已上传的尺寸
     const uploadedChunksSizes = [];
     // 文件标识符
-    const identify = encodeURI(file.name);
-
+    const identify = `${getID()}${encodeURI(file.name)}`;
     // 请求取消函数
     const cancelFunctions = [];
     // 是否已经取消请求
