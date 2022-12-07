@@ -78,7 +78,7 @@ function splitChunksUpload({
     // 各个chunk已上传的尺寸
     const uploadedChunksSizes = [];
     // 文件标识符
-    const identify = `${getID()}${directory}${encodeURI(file.name)}`;
+    const identify = encodeURI(`${getID()}${directory}${file.name}`);
     // 请求取消函数
     const cancelFunctions = [];
     // 是否已经取消请求
