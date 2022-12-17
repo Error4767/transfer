@@ -127,6 +127,8 @@ function splitChunksUpload({
           if (!isResetSuccess) {
             return Promise.reject();
           }
+          // 结束之后，防止有进度事件被节流掉，触发一次进度更新事件
+          onUploadProgressHandler();
           // 都成功就发起chunks合并请求
           return axios({
             method: "post",
