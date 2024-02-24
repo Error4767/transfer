@@ -1,3 +1,3 @@
 export default {
-  api: "https://api.ecuder.cn:16384"
+  api: "https://api.ecuder.cn:2053"
 }
