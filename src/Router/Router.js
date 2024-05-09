@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 const TransferFiles = ()=> import("@/views/TransferFiles/TransferFiles.vue");
-const CloudClipboard = ()=> import("@/views/CloudClipboard/CloudClipboard.vue");
-const CloudClipboardEnter = ()=> import("@/views/CloudClipboardEnter/CloudClipboardEnter.vue");
+const CloudText = ()=> import("@/views/CloudText/CloudText.vue");
+const CloudTextEnter = ()=> import("@/views/CloudTextEnter/CloudTextEnter.vue");
 
 const routes = [
   {
@@ -14,12 +14,12 @@ const routes = [
     component: TransferFiles
   },
   {
-    path: "/CloudClipboard",
-    component: CloudClipboardEnter,
+    path: "/CloudText",
+    component: CloudTextEnter,
   },
   {
-    path: "/CloudClipboard/:username",
-    component: CloudClipboard,
+    path: "/CloudText/:username",
+    component: CloudText,
   },
 ];
 

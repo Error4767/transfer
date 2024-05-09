@@ -1,5 +1,5 @@
 <template>
-  <ElCard class="clipboard">
+  <ElCard class="cloud_text">
     <template #header>
       <div class="header">
         <div class="username">{{ username }}</div>
@@ -24,19 +24,18 @@
     <div class="scroll-container" v-if="!isEditing">
       <ElScrollbar>
         <div class="content">
-          {{ cloudClipboardContent }}
+          {{ cloudTextContent }}
         </div>
       </ElScrollbar>
     </div>
     <ElInput
       v-else
       class="input"
-      v-model="cloudClipboardContent"
+      v-model="cloudTextContent"
       type="textarea"
       maxlength="8000"
       show-word-limit
       rows="15"
-      placeholder="该剪切板目前没有内容，点击右上角编辑内容"
     >
     </ElInput>
   </ElCard>
@@ -46,8 +45,8 @@
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-import getCloudClipboard from "./getCloudClipboard.js";
-import setCloudClipboard from "./setCloudClipboard.js";
+import getCloudText from "./getCloudText.js";
+import setCloudText from "./setCloudText.js";
 
 import { ElCard, ElButton, ElIcon, ElInput, ElScrollbar } from "element-plus";
 
@@ -71,8 +70,8 @@ export default {
     const router = useRouter();
     const username = route.params.username;
 
-    // 剪切板内容
-    const cloudClipboardContent = ref("");
+    // 云文本内容
+    const cloudTextContent = ref("");
     // 编辑状态
     const isEditing = ref(false);
 
@@ -81,17 +80,17 @@ export default {
       message.warning("用户名不合法, 3秒后自动返回");
       setTimeout(() => router.go(-1), 3000);
     } else {
-      // 初始化请求一次尝试获取剪切板内容
-      getCloudClipboard(username)
-        .then((v) => (cloudClipboardContent.value = v))
+      // 初始化请求一次尝试获取云文本内容
+      getCloudText(username)
+        .then((v) => (cloudTextContent.value = v))
         .catch(() => {});
     }
 
     return {
       // 名字
       username,
-      // 剪切板内容
-      cloudClipboardContent,
+      // 云文本内容
+      cloudTextContent,
       // 编辑状态
       isEditing,
       // 进入编辑状态
@@ -101,15 +100,15 @@ export default {
       // 结束编辑状态和保存数据
       endEdit() {
         isEditing.value = false;
-        const value = cloudClipboardContent.value;
-        setCloudClipboard(username, value)
+        const value = cloudTextContent.value;
+        setCloudText(username, value)
           .then(() => message.success("保存成功"))
           .catch(() => message.error("保存失败"));
       },
       // 复制按钮
       copyContent() {
         navigator.clipboard
-          .writeText(cloudClipboardContent.value)
+          .writeText(cloudTextContent.value)
           .then(() => message.success("复制成功"))
           .catch(() => message.error("复制失败"));
       },
@@ -119,7 +118,7 @@ export default {
 </script>
 
 <style scoped lang="postcss">
-.clipboard {
+.cloud_text {
   height: 500px;
   margin: 2rem;
   & .header {

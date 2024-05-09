@@ -1,5 +1,5 @@
 <template>
-  <ElButton @click="createDialog" size="large">进入云剪切板</ElButton>
+  <ElButton @click="createDialog" size="large">进入云文本</ElButton>
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
 
     const createDialog = () => {
       Swal.fire({
-        title: "输入用户名进入对应剪切板",
+        title: "输入用户名进入对应云文本",
         allowOutsideClick: false,
         input: "text",
         showLoaderOnConfirm: true,
@@ -26,7 +26,7 @@ export default {
         inputPlaceholder: "用户名",
         confirmButtonText: "进入",
         preConfirm: (username) => {
-          router.push(`/CloudClipboard/${username}`);
+          router.push(`/CloudText/${username}`);
         },
         inputValidator: (username) => {
           if (!invalidFilename.test(username)) {

@@ -6,8 +6,8 @@
     <ElMenuItem :index="String(Math.random())" @click="router.push('/transferFiles')">
       文件传输
     </ElMenuItem>
-    <ElMenuItem :index="String(Math.random())" @click="router.push('/CloudClipboard')">
-      云剪切板
+    <ElMenuItem :index="String(Math.random())" @click="router.push('/CloudText')">
+      云文本
     </ElMenuItem>
   </ElMenu>
 </template>
